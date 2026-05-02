@@ -1,10 +1,10 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.atmflow55/pulse-mcp",
-  "description": "Pulse: 16 data sources (crypto/DeFi/security/news/finance) via one MCP. Bundles save ~92%.",
+  "name": "io.github.atmflow55/datafood-mcp",
+  "description": "DataFood: 16 data sources (crypto/DeFi/security/news/finance) via one MCP. Bundles save ~92%.",
   "status": "active",
   "repository": {
-    "url": "https://github.com/atmflow55/pulse-mcp",
+    "url": "https://github.com/atmflow55/datafood-mcp",
     "source": "github"
   },
   "version": "6.0.0",

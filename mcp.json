@@ -2,9 +2,9 @@
   "protocol": "model-context-protocol",
   "version": "2025-06-18",
   "server": {
-    "name": "pulse",
-    "display_name": "Pulse — Universal Data API",
-    "description": "Pulse aggregates 16 cross-niche data sources (crypto, weather, news, finance, web3, security) into a single agent-friendly API. AI agents save 92% vs. calling individual APIs.",
+    "name": "datafood",
+    "display_name": "DataFood — Universal Data API",
+    "description": "DataFood aggregates 16 cross-niche data sources (crypto, weather, news, finance, web3, security) into a single agent-friendly API. AI agents save 92% vs. calling individual APIs.",
     "version": "6.0.0",
     "publisher": "TOUGH LOVE SECURITY",
     "publisher_url": "https://toughlovesec.win",
@@ -24,8 +24,8 @@
   ],
   "tools": [
     {
-      "name": "pulse_query",
-      "description": "Fetch a single data type from Pulse. Use this for one-off queries. For 3+ queries use pulse_bundle (cheaper).",
+      "name": "datafood_query",
+      "description": "Fetch a single data type from DataFood. Use this for one-off queries. For 3+ queries use datafood_bundle (cheaper).",
       "input_schema": {
         "type": "object",
         "required": [
@@ -76,7 +76,7 @@
       "http_endpoint": "GET /api/data/preview"
     },
     {
-      "name": "pulse_bundle",
+      "name": "datafood_bundle",
       "description": "Bundle 3-20 queries across any data types in one call. Cheapest way for AI agents to fetch cross-niche data — saves 50-92% vs. per-API calls.",
       "input_schema": {
         "type": "object",
@@ -148,7 +148,7 @@
       "http_endpoint": "POST /api/data/bundle"
     },
     {
-      "name": "pulse_portfolio_ask",
+      "name": "datafood_portfolio_ask",
       "description": "Natural-language Q&A on a Plaid-linked portfolio. Returns AI-generated answer with citations to underlying holdings.",
       "input_schema": {
         "type": "object",
@@ -183,7 +183,7 @@
       "http_endpoint": "POST /api/portfolio/ask"
     },
     {
-      "name": "pulse_watch_session",
+      "name": "datafood_watch_session",
       "description": "Open a watchable agent session — returns session_id and a public /watch/{id} URL. Stream click/search/fetch/screenshot events for live human observation.",
       "input_schema": {
         "type": "object",

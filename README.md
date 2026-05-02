@@ -1,10 +1,10 @@
-# Pulse — Universal Data Hub for AI Agents (MCP Server)
+# DataFood — Universal Data Hub for AI Agents (MCP Server)
 
 [![Live](https://img.shields.io/badge/MCP-live-brightgreen)](https://toughlovesec.win/mcp)
 [![Protocol](https://img.shields.io/badge/protocol-2025--06--18-blue)](https://modelcontextprotocol.io)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
-**Pulse** is a remote MCP server that gives AI agents one-call access to **16 cross-niche data sources** — crypto, DeFi, security, weather, news, finance, web3 — through a single Streamable-HTTP endpoint.
+**DataFood** is a remote MCP server that gives AI agents one-call access to **16 cross-niche data sources** — crypto, DeFi, security, weather, news, finance, web3 — through a single Streamable-HTTP endpoint.
 
 > **Bundle micropayments save 92%** vs. paying per-API to 16 different vendors.
 
@@ -34,10 +34,10 @@ All 16 types share one schema, one auth, one billing surface.
 
 | Tool | What it does | Pricing |
 |---|---|---|
-| `pulse_query` | Fetch one data type. Free 1-row preview. | preview: $0 / full: $0.001 |
-| `pulse_bundle` | 1–20 queries across any types in a single call. | 3–5: $0.0035 / 6–10: $0.005 / 11–20: $0.008 |
-| `pulse_portfolio_ask` | NL Q&A on a Plaid-linked portfolio with citations. | free during beta |
-| `pulse_watch_session` | Open a public `/watch/{id}` URL streaming agent events. | free |
+| `datafood_query` | Fetch one data type. Free 1-row preview. | preview: $0 / full: $0.001 |
+| `datafood_bundle` | 1–20 queries across any types in a single call. | 3–5: $0.0035 / 6–10: $0.005 / 11–20: $0.008 |
+| `datafood_portfolio_ask` | NL Q&A on a Plaid-linked portfolio with citations. | free during beta |
+| `datafood_watch_session` | Open a public `/watch/{id}` URL streaming agent events. | free |
 
 Day pass: **$0.99** · Week pass: **$4.99** (Stripe Checkout or x402 micropayment header).
 
@@ -50,7 +50,7 @@ Day pass: **$0.99** · Week pass: **$4.99** (Stripe Checkout or x402 micropaymen
 ```jsonc
 {
   "mcpServers": {
-    "pulse": {
+    "datafood": {
       "transport": "http",
       "url": "https://toughlovesec.win/mcp"
     }
@@ -74,7 +74,7 @@ curl -s -X POST https://toughlovesec.win/mcp \
   -d '{
     "jsonrpc":"2.0","id":2,"method":"tools/call",
     "params":{
-      "name":"pulse_bundle",
+      "name":"datafood_bundle",
       "arguments":{
         "free": true,
         "queries":[
@@ -91,10 +91,10 @@ curl -s -X POST https://toughlovesec.win/mcp \
 
 ## Payment paths
 
-Pulse supports two agent-native payment methods:
+DataFood supports two agent-native payment methods:
 
 1. **x402** — pay-per-call via the `X-Payment` HTTP header (HTTP 402 challenge/response).
-2. **Stripe Checkout** — pass `session_id` from a `/api/checkout/*` flow into `pulse_bundle`. Day/week passes auto-unlock.
+2. **Stripe Checkout** — pass `session_id` from a `/api/checkout/*` flow into `datafood_bundle`. Day/week passes auto-unlock.
 
 Free 1-row preview (up to 5 bundle items) requires **no auth**.
 
@@ -107,7 +107,7 @@ A typical agent fetching 10 data types per task:
 | Method | Cost / call | Vendors to manage |
 |---|---|---|
 | 10 individual APIs (Alchemy, Etherscan, OpenWeather, NewsAPI, …) | ~$0.06 | 10 |
-| **Pulse `pulse_bundle` (10 queries)** | **$0.005** | **1** |
+| **DataFood `datafood_bundle` (10 queries)** | **$0.005** | **1** |
 
 **~92% cheaper, one auth surface, one invoice.**
 
@@ -127,4 +127,4 @@ MIT — see [`LICENSE`](./LICENSE).
 
 ---
 
-*Pulse is built and operated by [TOUGH LOVE SECURITY](https://toughlovesec.win), a security-and-data infrastructure shop. Contact: `lemorris@toughlovesec.win`.*
+*DataFood is built and operated by [TOUGH LOVE SECURITY](https://toughlovesec.win), a security-and-data infrastructure shop. Contact: `lemorris@toughlovesec.win`.*

@@ -1,7 +1,7 @@
 {
-  "name": "pulse-mcp",
+  "name": "datafood-mcp",
   "version": "6.0.0",
-  "description": "Pulse — universal data hub for AI agents (MCP server). 16 cross-niche data sources: crypto, weather, news, finance, security, web3. Bundle micropayments save 92% vs per-API alternatives.",
+  "description": "DataFood — universal data hub for AI agents (MCP server). 16 cross-niche data sources: crypto, weather, news, finance, security, web3. Bundle micropayments save 92% vs per-API alternatives.",
   "keywords": [
     "mcp",
     "mcp-server",
@@ -19,7 +19,7 @@
   ],
   "homepage": "https://toughlovesec.win/agent-mesh",
   "bugs": {
-    "url": "https://github.com/atmflow55/pulse-mcp/issues",
+    "url": "https://github.com/atmflow55/datafood-mcp/issues",
     "email": "lemorris@toughlovesec.win"
   },
   "license": "MIT",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/atmflow55/pulse-mcp.git"
+    "url": "git+https://github.com/atmflow55/datafood-mcp.git"
   },
   "mcp": {
     "transport": "streamable-http",
@@ -38,13 +38,13 @@
     "descriptor": "https://toughlovesec.win/.well-known/mcp.json",
     "protocol_version": "2025-06-18",
     "tools": [
-      "pulse_query",
-      "pulse_bundle",
-      "pulse_portfolio_ask",
-      "pulse_watch_session"
+      "datafood_query",
+      "datafood_bundle",
+      "datafood_portfolio_ask",
+      "datafood_watch_session"
     ]
   },
   "scripts": {
-    "test": "curl -s -X POST https://toughlovesec.win/mcp -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}' | grep -q pulse_bundle && echo OK"
+    "test": "curl -s -X POST https://toughlovesec.win/mcp -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}' | grep -q datafood_bundle && echo OK"
   }
 }
