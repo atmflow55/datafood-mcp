@@ -16,7 +16,10 @@ jobs:
           chmod +x mcp-publisher
       - name: Login via GitHub OIDC
         run: ./mcp-publisher login github-oidc
-      - name: Deprecate old pulse-mcp (all versions)
-        run: ./mcp-publisher status --status deleted --all-versions --message "Renamed to io.github.atmflow55/datafood-mcp" io.github.atmflow55/pulse-mcp || echo "not-fatal"
+      - name: Delete old pulse-mcp (pipe y for non-interactive)
+        run: |
+          yes y | ./mcp-publisher status --status deleted --all-versions \
+            --message "Renamed to io.github.atmflow55/datafood-mcp — same /mcp URL, new brand: DataFood" \
+            io.github.atmflow55/pulse-mcp || echo "deprecate-step-failed-but-continuing"
       - name: Publish datafood-mcp
         run: ./mcp-publisher publish ./server.json
