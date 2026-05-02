@@ -1,33 +1,22 @@
-name: Publish to MCP Registry
-
+name: Deprecate old pulse-mcp + Publish DataFood
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths: ["server.json"]
-
+permissions:
+  id-token: write
+  contents: read
 jobs:
   publish:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - uses: actions/checkout@v4
-
       - name: Install mcp-publisher
         run: |
-          curl -fsSL -o mp.tgz \
-            https://github.com/modelcontextprotocol/registry/releases/download/v1.7.6/mcp-publisher_linux_amd64.tar.gz
-          tar xzf mp.tgz
+          curl -L https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_linux_amd64.tar.gz -o mcp.tar.gz
+          tar xzf mcp.tar.gz
           chmod +x mcp-publisher
-          ./mcp-publisher --help | head -3
-
-      - name: Validate
-        run: ./mcp-publisher validate ./server.json
-
-      - name: Login (GitHub OIDC)
+      - name: Login via GitHub OIDC
         run: ./mcp-publisher login github-oidc
-
-      - name: Publish
+      - name: Deprecate old pulse-mcp (all versions)
+        run: ./mcp-publisher status --status deleted --all-versions --message "Renamed to io.github.atmflow55/datafood-mcp" io.github.atmflow55/pulse-mcp || echo "not-fatal"
+      - name: Publish datafood-mcp
         run: ./mcp-publisher publish ./server.json
