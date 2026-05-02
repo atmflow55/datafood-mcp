@@ -1,7 +1,7 @@
 {
-  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-09-29/server.schema.json",
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "io.github.atmflow55/pulse-mcp",
-  "description": "Pulse — universal data hub for AI agents. 16 cross-niche data sources (crypto, DeFi, security, weather, news, finance, web3) behind one MCP endpoint. Bundle micropayments save ~92% vs per-API alternatives. Pay via Stripe Checkout or x402.",
+  "description": "Pulse: 16 data sources (crypto/DeFi/security/news/finance) via one MCP. Bundles save ~92%.",
   "status": "active",
   "repository": {
     "url": "https://github.com/atmflow55/pulse-mcp",
