@@ -1,0 +1,44 @@
+name: MCP live check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Hit the live endpoint every 6h to verify it's still up
+    - cron: "0 */6 * * *"
+
+jobs:
+  tools-list:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: tools/list returns 4 Pulse tools
+        run: |
+          set -e
+          RESP=$(curl -fsS -X POST https://toughlovesec.win/mcp \
+            -H "Content-Type: application/json" \
+            -d '{"jsonrpc":"2.0","id":1,"method":"tools/list"}')
+          echo "$RESP" | jq .
+          echo "$RESP" | jq -e '.result.tools | length == 4'
+          echo "$RESP" | grep -q pulse_query
+          echo "$RESP" | grep -q pulse_bundle
+          echo "$RESP" | grep -q pulse_portfolio_ask
+          echo "$RESP" | grep -q pulse_watch_session
+
+      - name: free preview tools/call works
+        run: |
+          set -e
+          curl -fsS -X POST https://toughlovesec.win/mcp \
+            -H "Content-Type: application/json" \
+            -d '{
+              "jsonrpc":"2.0","id":2,"method":"tools/call",
+              "params":{
+                "name":"pulse_bundle",
+                "arguments":{"free":true,"queries":[{"type":"crypto-price","q":"BTC"}]}
+              }
+            }' | jq .
+
+      - name: descriptor is reachable
+        run: curl -fsS https://toughlovesec.win/.well-known/mcp.json | jq -e '.server.name == "pulse"'

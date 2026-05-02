@@ -1,0 +1,252 @@
+{
+  "protocol": "model-context-protocol",
+  "version": "2025-06-18",
+  "server": {
+    "name": "pulse",
+    "display_name": "Pulse — Universal Data API",
+    "description": "Pulse aggregates 16 cross-niche data sources (crypto, weather, news, finance, web3, security) into a single agent-friendly API. AI agents save 92% vs. calling individual APIs.",
+    "version": "6.0.0",
+    "publisher": "TOUGH LOVE SECURITY",
+    "publisher_url": "https://toughlovesec.win",
+    "canonical_url": "https://toughlovesec.win/agent-mesh"
+  },
+  "transports": [
+    {
+      "type": "streamable-http",
+      "url": "https://toughlovesec.win/mcp",
+      "status": "live",
+      "note": "JSON-RPC 2.0 over HTTP per MCP Streamable HTTP transport spec (2025-06-18). POST for method calls; GET for discovery/health."
+    },
+    {
+      "type": "stdio",
+      "note": "Not currently provided — remote MCP only."
+    }
+  ],
+  "tools": [
+    {
+      "name": "pulse_query",
+      "description": "Fetch a single data type from Pulse. Use this for one-off queries. For 3+ queries use pulse_bundle (cheaper).",
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "token-risk",
+              "breach",
+              "contract-risk",
+              "defi-yield",
+              "crypto-price",
+              "crypto-trending",
+              "stock-quote",
+              "weather",
+              "news-hn-top",
+              "news-reddit",
+              "flights-near",
+              "real-estate-rss",
+              "sports-scores",
+              "gas-prices-eth",
+              "forex",
+              "github-trending"
+            ],
+            "description": "One of 16 supported data types"
+          },
+          "q": {
+            "type": "string",
+            "description": "Query string. See /api/v1/catalog for per-type examples."
+          },
+          "preview": {
+            "type": "boolean",
+            "default": true,
+            "description": "If true, returns 1-row free preview"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "description": "Per-type response — see /openapi.json for schemas"
+      },
+      "pricing_usd": {
+        "preview": 0,
+        "full": 0.001
+      },
+      "http_endpoint": "GET /api/data/preview"
+    },
+    {
+      "name": "pulse_bundle",
+      "description": "Bundle 3-20 queries across any data types in one call. Cheapest way for AI agents to fetch cross-niche data — saves 50-92% vs. per-API calls.",
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "queries"
+        ],
+        "properties": {
+          "queries": {
+            "type": "array",
+            "maxItems": 20,
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "type"
+              ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "token-risk",
+                    "breach",
+                    "contract-risk",
+                    "defi-yield",
+                    "crypto-price",
+                    "crypto-trending",
+                    "stock-quote",
+                    "weather",
+                    "news-hn-top",
+                    "news-reddit",
+                    "flights-near",
+                    "real-estate-rss",
+                    "sports-scores",
+                    "gas-prices-eth",
+                    "forex",
+                    "github-trending"
+                  ]
+                },
+                "q": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "session_id": {
+            "type": "string",
+            "description": "Optional — link to a /watch Live Agent View session"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer"
+          },
+          "results": {
+            "type": "array"
+          }
+        }
+      },
+      "pricing_usd": {
+        "3-5_queries": 0.0035,
+        "6-10_queries": 0.005,
+        "11-20_queries": 0.008,
+        "day_pass": 0.99,
+        "week_pass": 4.99
+      },
+      "http_endpoint": "POST /api/data/bundle"
+    },
+    {
+      "name": "pulse_portfolio_ask",
+      "description": "Natural-language Q&A on a Plaid-linked portfolio. Returns AI-generated answer with citations to underlying holdings.",
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "user_id",
+          "question"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "string"
+          },
+          "question": {
+            "type": "string",
+            "description": "e.g. 'Am I overexposed to tech?'"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "answer": {
+            "type": "string"
+          },
+          "citations": {
+            "type": "array"
+          }
+        }
+      },
+      "pricing_usd": {
+        "call": 0
+      },
+      "http_endpoint": "POST /api/portfolio/ask"
+    },
+    {
+      "name": "pulse_watch_session",
+      "description": "Open a watchable agent session — returns session_id and a public /watch/{id} URL. Stream click/search/fetch/screenshot events for live human observation.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "label": {
+            "type": "string",
+            "description": "Optional human-readable label"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "session_id",
+          "watch_url"
+        ],
+        "properties": {
+          "session_id": {
+            "type": "string"
+          },
+          "watch_url": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      },
+      "pricing_usd": {
+        "call": 0
+      },
+      "http_endpoint": "POST /api/agent-session/start"
+    }
+  ],
+  "tool_count": 4,
+  "resources": [
+    {
+      "uri": "https://toughlovesec.win/llms.txt",
+      "name": "llms.txt",
+      "mime_type": "text/plain"
+    },
+    {
+      "uri": "https://toughlovesec.win/AGENTS.md",
+      "name": "AGENTS.md",
+      "mime_type": "text/markdown"
+    },
+    {
+      "uri": "https://toughlovesec.win/api/v1/catalog",
+      "name": "Data type catalog",
+      "mime_type": "application/json"
+    },
+    {
+      "uri": "https://toughlovesec.win/openapi.json",
+      "name": "OpenAPI 3.0 spec",
+      "mime_type": "application/json"
+    }
+  ],
+  "capabilities": {
+    "tools": true,
+    "resources": true,
+    "prompts": false,
+    "sampling": false
+  },
+  "auth": {
+    "type": "none",
+    "note": "Free tier requires no auth. Paid tiers via Stripe payment link or x402 (v6+)."
+  }
+}

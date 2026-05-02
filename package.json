@@ -1,0 +1,50 @@
+{
+  "name": "pulse-mcp",
+  "version": "6.0.0",
+  "description": "Pulse — universal data hub for AI agents (MCP server). 16 cross-niche data sources: crypto, weather, news, finance, security, web3. Bundle micropayments save 92% vs per-API alternatives.",
+  "keywords": [
+    "mcp",
+    "mcp-server",
+    "model-context-protocol",
+    "ai-agents",
+    "data-api",
+    "agent-economy",
+    "x402",
+    "stripe",
+    "cloudflare-workers",
+    "crypto",
+    "defi",
+    "security",
+    "web3"
+  ],
+  "homepage": "https://toughlovesec.win/agent-mesh",
+  "bugs": {
+    "url": "https://github.com/atmflow55/pulse-mcp/issues",
+    "email": "lemorris@toughlovesec.win"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "TOUGH LOVE SECURITY",
+    "email": "lemorris@toughlovesec.win",
+    "url": "https://toughlovesec.win"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atmflow55/pulse-mcp.git"
+  },
+  "mcp": {
+    "transport": "streamable-http",
+    "url": "https://toughlovesec.win/mcp",
+    "descriptor": "https://toughlovesec.win/.well-known/mcp.json",
+    "protocol_version": "2025-06-18",
+    "tools": [
+      "pulse_query",
+      "pulse_bundle",
+      "pulse_portfolio_ask",
+      "pulse_watch_session"
+    ]
+  },
+  "scripts": {
+    "test": "curl -s -X POST https://toughlovesec.win/mcp -H 'Content-Type: application/json' -d '{\"jsonrpc\":\"2.0\",\"id\":1,\"method\":\"tools/list\"}' | grep -q pulse_bundle && echo OK"
+  }
+}
